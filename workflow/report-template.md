@@ -1,6 +1,9 @@
 # 分析报告模板
 
 > 项目名称：[项目名]　|　分析日期：[YYYY-MM-DD]　|　分析深度：[快速/标准/深度]
+>
+> 📄 **文件保存路径**: `docs/analysis/YYYY-MM-DD-<项目名>-analysis.md`
+> 📋 **索引文件**: `docs/analysis/INDEX.md`（追加新记录到顶部）
 
 ---
 
@@ -256,3 +259,4 @@
 > 报告生成时间：[YYYY-MM-DD HH:MM]
 > 分析方法：[project-analysis-rules](../README.md) v1.0
 > 分析工具：GitNexus + 人工审查
+> 文件路径：`docs/analysis/YYYY-MM-DD-<项目名>-analysis.md`
