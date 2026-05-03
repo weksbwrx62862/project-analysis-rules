@@ -3,7 +3,7 @@ name: project-analyzer
 description: 开源项目深度分析专家。当用户要求分析、评估、学习或审计任意开源项目时使用此 Skill。按 7 阶段结构化流程（含强制报告输出）结合 GitNexus 知识图谱执行分析，输出各维度 1-4 评分的标准化报告并自动保存为 Markdown 文件。
 # EXTENDED METADATA (MANDATORY)
 github_url: https://github.com/weksbwrx62862/project-analysis-rules
-github_hash: a31bdc3
+github_hash: 73ecea32bc93b34ee56cc9e1fd508141bbbd52e4
 version: 1.1.0
 created_at: 2026-05-03
 dependencies: ["gitnexus@1.6.4-rc.43"]
