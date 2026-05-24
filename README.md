@@ -1,11 +1,17 @@
+<div align="center">
+
 # Project Analysis Rules
 
-<p align="center"><strong>开源项目分析规则体系</strong> — 让每一次代码阅读都有章可循</p>
+**开源项目分析规则体系** — 让每一次代码阅读都有章可循
+
+</div>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/languages-Python%20%7C%20TS%20%7C%20Go%20%7C%20Rust-orange" alt="Languages">
+  <img src="https://img.shields.io/github/stars/weksbwrx62862/project-analysis-rules?style=social" alt="Stars">
+  <img src="https://img.shields.io/github/last-commit/weksbwrx62862/project-analysis-rules" alt="Last Commit">
 </p>
 
 ---
@@ -76,18 +82,36 @@
 ```bash
 # 1. 克隆本规则仓库（仅需一次）
 git clone https://github.com/weksbwrx62862/project-analysis-rules.git
+cd project-analysis-rules
 
-# 2. 索引目标项目
-cd <目标项目>
+# 2. 安装 GitNexus（如尚未安装）
+npm install -g gitnexus@1.6.4-rc.43
+
+# 3. 索引目标项目
+cd /path/to/target-project
 gitnexus analyze -f
+# 确认输出包含 "Repository indexed successfully"
 
-# 3. 按规则分析
-# 打开 rules/ 、workflow/analysis-checklist.md，逐项检查
-# 或让 AI Agent 加载 skills/project-analyzer.md 自动执行
+# 4. 执行快速健康检查（可选，生成概览数据）
+bash /path/to/project-analysis-rules/gitnexus/analysis-scripts/quick-health-check.sh
 
-# 4. 生成报告
+# 5. 按规则逐项分析
+# 打开 rules/01-architecture.md ~ 07-evolution-ops.md，逐维度检查
+# 或使用 workflow/analysis-checklist.md 作为检查清单
+
+# 6. 生成分析报告
 # 按 workflow/report-template.md 模板输出分析报告
+# 或运行脚本自动生成数据：
+bash /path/to/project-analysis-rules/gitnexus/analysis-scripts/generate-report-data.sh
 ```
+
+### 分析模式选择
+
+| 模式 | 适用场景 | 时间预算 | 建议维度 |
+|------|----------|----------|----------|
+| **快速** | 1k 行以下小库 / 初步筛选 | 15-30 min | 01 架构 + 02 代码质量 |
+| **标准** | 1k-50k 行中型项目 | 60-90 min | 01-04 全部核心维度 |
+| **深度** | 50k+ 行大型项目 / 技术选型 | 2-4 h | 01-07 全维度 + 语言专项 |
 
 ### 对于 AI Agent
 
@@ -204,9 +228,30 @@ project-analysis-rules/
 2. 参考现有语言指南的结构
 3. 更新 README 的语言列表
 
+### 代码风格
+
+- Markdown 文件使用中文撰写，技术术语保留英文
+- 文件命名：小写 + 连字符（kebab-case），如 `01-architecture.md`
+- 规则文件结构统一：**重点关注点** → **检查清单** → **评分标准** → **GitNexus 查询**
+
+### 测试与验证
+
+本仓库为规则文档仓库，无单元测试。验证方式：
+
+1. **规则完整性**：确保每个维度文件包含完整的 4 个章节（重点关注点 / 检查清单 / 评分标准 / GitNexus 查询）
+2. **示例验证**：用已有示例项目（FastAPI / Express）重新走一遍分析流程，确认规则可执行
+3. **GitNexus 查询验证**：在已索引项目上运行 `gitnexus/analysis-scripts/quick-health-check.sh`，确认脚本无报错
+
+### CI
+
+- 当前未配置 CI 流水线
+- 建议后续添加 Markdown lint（如 `markdownlint`）和链接检查（如 `lychee`）
+
 ---
 
 ## 路线图
+
+### v1.0 — 基础规则体系 ✅
 
 - [x] 7 大分析维度规则
 - [x] 6 阶段分析流程
@@ -214,11 +259,24 @@ project-analysis-rules/
 - [x] 4 语言专项指南（Python / TS / Go / Rust）
 - [x] Agent Skill 定义
 - [x] 示例分析报告（FastAPI / Express）
+
+### v1.1 — 扩展覆盖（进行中）
+
 - [ ] 更多语言专项（Java / C# / Zig / Elixir）
-- [ ] 更多分析示例报告
-- [ ] 自动化一键分析命令
+- [ ] 更多分析示例报告（Django / Next.js / Gin / Actix）
+- [ ] 自动化一键分析命令（CLI 工具）
+
+### v1.2 — 可视化与对比
+
 - [ ] 项目横向对比雷达图
 - [ ] HTML 可视化分析报告
+- [ ] 分析结果导出为 PDF / JSON
+
+### v2.0 — 智能化
+
+- [ ] LLM 辅助自动评分（基于规则 + RAG）
+- [ ] 增量分析（仅分析变更部分）
+- [ ] 与 CI/CD 集成（PR 自动评审）
 
 ---
 
@@ -233,11 +291,45 @@ A: 不是强依赖，但强烈推荐。不装 GitNexus 则跳过图谱查询步�
 **Q: 评分是绝对的吗？**
 A: 不。评分是**相对**的——在同一类项目中比较。一个 1000 行的 CLI 工具不需要 DDD 架构。
 
+**Q: 如何为非 Python/TS/Go/Rust 的项目做分析？**
+A: 7 大维度规则是语言无关的，适用于任何语言。语言专项指南仅提供特定语言的常见陷阱和最佳实践。对于 Java、C# 等语言，可暂时跳过语言专项，仅使用通用规则。
+
+**Q: 分析报告可以用于商业项目评估吗？**
+A: 可以。本规则体系基于 MIT 许可证发布，分析产出归分析者所有。但请注意，分析他人项目时需遵守目标项目的许可证规定，尤其是涉及源码引用时。
+
+**Q: 如何与团队协作使用这套规则？**
+A: 建议做法：1) 团队统一克隆本仓库到共享位置；2) 分析前先对齐评分标准（可在示例报告上校准）；3) 每人负责不同维度，最后汇总讨论；4) 将分析报告存入团队知识库。
+
 ---
 
 ## Contributing
 
 欢迎提交 Issue 和 PR，改进分析规则、新增语言指南、贡献分析示例。
+
+### 工作流
+
+1. **Fork** 本仓库到你的 GitHub 账户
+2. **创建分支**：`git checkout -b feat/your-feature`
+3. **提交变更**：遵循 Conventional Commits 规范（如 `feat(rules): add security audit checklist`）
+4. **推送分支**：`git push origin feat/your-feature`
+5. **创建 PR**：描述变更内容、动机和影响范围
+
+### 贡献类型
+
+| 类型 | 说明 | 示例 |
+|------|------|------|
+| **规则改进** | 优化现有维度的检查项或评分标准 | 补充架构维度的微服务检查项 |
+| **新增语言** | 添加语言专项指南 | Java 语言指南 |
+| **示例报告** | 贡献真实项目的分析报告 | Django 项目分析报告 |
+| **工具脚本** | 改进 GitNexus 分析脚本 | 新增依赖热度排序脚本 |
+| **文档修复** | 修正错别字、链接失效等 | 修复 README 中的链接 |
+
+### PR 检查清单
+
+- [ ] 变更与现有规则体系风格一致
+- [ ] 如新增规则，已同步更新 `workflow/analysis-checklist.md`
+- [ ] 如新增 Cypher 查询，已同步更新 `gitnexus/cypher-queries.md`
+- [ ] Markdown 格式正确，无链接失效
 
 ---
 
