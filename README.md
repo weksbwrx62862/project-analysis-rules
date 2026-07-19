@@ -343,12 +343,30 @@ MIT
 
 本仓库不包含任何密钥或敏感信息。分析他人项目时，请遵守目标项目的许可证规定。
 
+### 负责任披露
+
+如果你在本规则体系或相关工具中发现安全漏洞：
+
+1. **请勿**在公开 Issue 中报告
+2. 通过 GitHub Security Advisories 提交：[报告安全漏洞](https://github.com/weksbwrx62862/project-analysis-rules/security/advisories/new)
+3. 我们将在 48 小时内确认收悉，7 个工作日内提供初步评估
+4. 修复后将公开致谢（除非你要求匿名）
+
+### 分析伦理
+
+- 分析他人项目时，**不得**利用发现的漏洞进行未授权访问
+- 分析报告中引用的源码片段应遵守目标项目的许可证
+- 不得将分析工具用于恶意目的（如竞品攻击面探测）
+
 ---
 
 ## 致谢
 
 - [GitNexus](https://www.npmjs.com/package/gitnexus) — 让代码图谱分析成为可能
 - 所有被分析的开源项目 — 它们是我们学习的源泉
+- [shields.io](https://shields.io/) — 提供项目徽章服务
+- [Tree-sitter](https://tree-sitter.github.io/) — GitNexus 底层的代码解析引擎
+- 社区贡献者 — 每一个 Issue 和 PR 都让规则体系更完善
 
 ---
 
